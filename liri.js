@@ -1,6 +1,13 @@
-var twitter = require('./keys.js');
+console.log("LIRI is starting");
 
-var keys = twitter.twitterKeys;
+var Twitter = require('twitter');
+
+var keys = require('./keys.js');
+//keys are saved as twitterKeys object.
+console.log("keys: ",keys);
+//keys are added as new object in  twitter package?
+var Tkeys = new Twitter(keys);
+
 
 var action = process.argv[2];
 var title = process.argv[3];
@@ -13,19 +20,19 @@ switch(action){
 
   case "spotify-this-song":
   console.log("spotify-this-song",title);
-  if ( === undeflined){
-    console.log("The sign by Ace of Base")
-  } else{
-    console.log("")
-    var queryURL = 'https://api.spotify.com/v1/search?q='+title+'&type=track';
-    
-    //      Artist(s)
-    //      The song's name
-    //      A preview link of the song from Spotify
-    //      The album that the song is from
-    //
-    //if no song is provided then your program will default to
-  }
+  // if ( === undeflined){
+  //   console.log("The sign by Ace of Base")
+  // } else{
+  //   console.log("")
+  //   var queryURL = 'https://api.spotify.com/v1/search?q='+title+'&type=track';
+  //
+  //   //      Artist(s)
+  //   //      The song's name
+  //   //      A preview link of the song from Spotify
+  //   //      The album that the song is from
+  //   //
+  //   //if no song is provided then your program will default to
+  // }
   //This will show the following information about the song in your terminal/bash window
   //     "The Sign" by Ace of Base
   break;

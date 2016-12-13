@@ -4,6 +4,7 @@
   "description": "Language Interpretation and Recognition Interface. LIRI will be a command line node app that takes in parameters and gives you back data.",
   "main": "liri.js",
   "scripts": {
+    "start":"node liri.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
