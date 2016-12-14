@@ -4,18 +4,36 @@ var Twitter = require('twitter');
 
 var keys = require('./keys.js');
 //keys are saved as twitterKeys object.
-console.log("keys: ",keys);
+// console.log("keys: ",keys);
 //keys are added as new object in  twitter package?
-var Tkeys = new Twitter(keys);
+var client = new Twitter(keys.twitterKeys);
 
 
 var action = process.argv[2];
 var title = process.argv[3];
 
 switch(action){
+
   case "my-tweets":
-  console.log(keys);
+
+  console.log("my tweets");
+  var params = {
+    q: '',
+    count: 4, //4 latest tweet.
+  };
+
+  client.get('statuses/user_timeline', params, gotData);
   //This will show your last 20 tweets and when they were created at in your terminal/bash window.
+
+  function gotData(error, data, response) {
+  if (!error)
+    // console.log("tweets",data[0]);
+    for (var i = 0; i < data.length; i++){
+      console.log("=============")
+      console.log(data[i].text);
+    }
+  };
+
   break;
 
   case "spotify-this-song":
