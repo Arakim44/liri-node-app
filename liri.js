@@ -2,6 +2,7 @@ console.log("LIRI is starting");
 
 var Twitter = require('twitter');
 var spotify = require('spotify');
+var request = require('request');
 
 var keys = require('./keys.js');
 //keys are saved as twitterKeys object.
@@ -66,26 +67,6 @@ switch (action) {
               console.log("\n-------------\n");
             }
 
-
-            //This prints the info about tracks.
-
-            // data.tracks.items.forEach((item, i) => {
-            // console.log(JSON.stringify(item, null, 2));
-            //     console.log(`item index: ${i} => `, item.id);
-            // })
-            //*** THis is using forEach.
-            // data.tracks.items.forEach(function(item, i) {
-            //   console.log(JSON.stringify(item, null, 2));
-            //   console.log(`item index: ${i} => `, item.id);
-            // })
-            //*** This is using for loops
-            // for(var i = 0; i < data.tracks.items.length; i++) {
-            //    var item = data.tracks.items[i];
-            //    console.log(JSON.stringify(item, null, 2));
-            //    console.log(`item index: ${i} => `, item.id);
-            // }
-
-            // console.log(Object.keys(data.tracks.items));
             if (err) {
                 console.log('Error occurred: ' + err);
                 return;
@@ -95,7 +76,32 @@ switch (action) {
         break;
 
     case "movie-this":
-        console.log("movie-this", title);
+    var queryUrl = "http://www.omdbapi.com/?t=" + title + "&y=&plot=short&r=json";
+
+    // This line is just to help us debug against the actual URL.
+    console.log(queryUrl);
+
+    request(queryUrl, function(error, response, body) {
+
+      // If the request is successful
+      if (!error && response.statusCode === 200) {
+
+        if(title === undefined){
+          console.log("\n-------------\n");
+          console.log("You did not put any title! well, Here's Mr. Nobody \n")
+          console.log("Title: Mr. Nobody \nRelease Year: 2009\nIMDB Rating: 7.9  \nCountry: Belgium, Germany, Canada, France \nLanguage: English, Mohawk \nPlot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible. \nActors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham ");
+          console.log("\n-------------\n");
+
+        }else{
+        console.log("\n-------------\n");
+        console.log("Title: "+JSON.parse(body).Title+"\nRelease Year: "+JSON.parse(body).Year+ "\nIMDB Rating: "+JSON.parse(body).imdbRating+"\nCountry: "+JSON.parse(body).Country+"\nLanguage: "+JSON.parse(body).Language+"\nPlot: "+JSON.parse(body).Plot+"\nActors: "+JSON.parse(body).Actors);
+        console.log("\n-------------\n");
+        //Ned rotten Tomatoes rating and URL
+      }
+
+      }
+    });
+
         // This will output the following information to your terminal/bash window:
         // Title of the movie.
         // * Year the movie came out.
