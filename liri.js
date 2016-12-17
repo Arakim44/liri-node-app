@@ -56,13 +56,19 @@ function myTweet() {
             console.log("=============")
             console.log(data[i].text);
             //This logs to the log.txt.
-            fs.appendFile("log.txt","=tweets==========\n"+data[i].text +"\n===============\n");
+            fs.appendFile("log.txt","===========\n"+data[i].text +"\n===============\n");
         }
     };
 
 
 }
-
+// function Toogle(){
+//   this.what = true;
+//   this.print = function(){
+//     console.log(this.what);
+//     this.what = !this.what;
+//   }
+// }
 //spotify-this method==================================
 function mySpotify() {
     spotify.search({
@@ -71,7 +77,8 @@ function mySpotify() {
     }, function(err, data) {
         // console.log(JSON.stringify(data.tracks.items[0],null,2));
         //This if statement is when user put undefined track title.
-        if (data.tracks.items[0] === undefined) {
+        // console.log(JSON.stringify(data,null,2));
+        if (title === "") {
             console.log("\n-------------\n");
             console.log(" We could not fined what you searched for.\n")
             console.log(" Song Title: The Sign\n Artist Name: Ace of Base\n Album Name: The Sign(US Album)\n Preview Link: https://p.scdn.co/mp3-preview/177e65fc2b8babeaf9266c0ad2a1cb1e18730ae4?cid=null");
@@ -103,6 +110,25 @@ function mySpotify() {
 
 }
 
+function noTitle(){
+  console.log("\n-------------\n");
+  console.log("You did not put any title! well, Here's Mr. Nobody \n")
+  console.log("Title: Mr. Nobody \nRelease Year: 2009\nIMDB Rating: 7.9  \nCountry: Belgium, Germany, Canada, France \nLanguage: English, Mohawk \nPlot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible. \nActors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham ");
+  console.log("\n-------------\n");
+
+  fs.appendFile("log.txt", "\n#movie####################\n"+"Title: Mr. Nobody \nRelease Year: 2009\nIMDB Rating: 7.9  \nCountry: Belgium, Germany, Canada, France \nLanguage: English, Mohawk \nPlot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible. \nActors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham "+"\n###############################\n");
+}
+
+
+function hasTitle(dataBody){
+      console.log("\n-------------\n");
+      console.log("Title: " + dataBody.Title + "\nRelease Year: " + dataBody.Year + "\nIMDB Rating: " + dataBody.imdbRating + "\nCountry: " + dataBody.Country + "\nLanguage: " + dataBody.Language + "\nPlot: " + dataBody.Plot + "\nActors: " + dataBody.Actors);
+      console.log("\n-------------\n");
+
+      fs.appendFile("log.txt", "\n~movie~~~~~~~~~~~~~\n"+"Title: " + dataBody.Title + "\nRelease Year: " + dataBody.Year + "\nIMDB Rating: " + dataBody.imdbRating + "\nCountry: " + dataBody.Country + "\nLanguage: " +dataBody.Language + "\nPlot: " + dataBody.Plot + "\nActors: " + dataBody.Actors +"\n~~~~~~~~~~~~~~~~\n");
+
+
+}
 //movie-this method====================================
 
 function myMovie() {
@@ -116,23 +142,16 @@ function myMovie() {
         // If the request is successful
         if (!error && response.statusCode === 200) {
 
-            if (title === undefined) {
-                console.log("\n-------------\n");
-                console.log("You did not put any title! well, Here's Mr. Nobody \n")
-                console.log("Title: Mr. Nobody \nRelease Year: 2009\nIMDB Rating: 7.9  \nCountry: Belgium, Germany, Canada, France \nLanguage: English, Mohawk \nPlot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible. \nActors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham ");
-                console.log("\n-------------\n");
-
-                fs.appendFile("log.txt", "\n#movie####################\n"+"Title: Mr. Nobody \nRelease Year: 2009\nIMDB Rating: 7.9  \nCountry: Belgium, Germany, Canada, France \nLanguage: English, Mohawk \nPlot: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesn't choose, anything is possible. \nActors: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham "+"\n###############################\n");
+            if (!title ) {
+              noTitle()
 
             } else {
-                console.log("\n-------------\n");
-                console.log("Title: " + JSON.parse(body).Title + "\nRelease Year: " + JSON.parse(body).Year + "\nIMDB Rating: " + JSON.parse(body).imdbRating + "\nCountry: " + JSON.parse(body).Country + "\nLanguage: " + JSON.parse(body).Language + "\nPlot: " + JSON.parse(body).Plot + "\nActors: " + JSON.parse(body).Actors);
-                console.log("\n-------------\n");
+              var dataBody = JSON.parse(body)
+              hasTitle(dataBody);
+
                 //add rotten Tomatoes rating and URL
-
-
                 // This will log to the log.txt
-                fs.appendFile("log.txt", "\n~movie~~~~~~~~~~~~~\n"+"Title: " + JSON.parse(body).Title + "\nRelease Year: " + JSON.parse(body).Year + "\nIMDB Rating: " + JSON.parse(body).imdbRating + "\nCountry: " + JSON.parse(body).Country + "\nLanguage: " +JSON.parse(body).Language + "\nPlot: " + JSON.parse(body).Plot + "\nActors: " + JSON.parse(body).Actors +"\n~~~~~~~~~~~~~~~~\n");
+
             }
 
         }
